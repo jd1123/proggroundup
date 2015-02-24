@@ -13,4 +13,11 @@ It is interesting. Why not learn what makes my computer tick?
 .section .text
 ```
 Make sure you don't forget the periods. You will get a corrupted header size in the executable, and it won't work.
-
+3. To assemble: 
+```
+as --32 <filename> -o <outputname>
+```
+4. To link:
+```
+ld -m elf_i386 <filename> -o <outputname>
+```
