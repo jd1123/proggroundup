@@ -26,18 +26,16 @@ maximum:
 	pushl	%ebp
 	movl	%esp, %ebp
 	movl	$1, %edi
-	movl	%ebp(,%edi,4), %eax
+	movl	4(%ebp), %ecx
 	jmp		start_loop
 
 start_loop:
+	addl	$4, %ecx
 	cmpl	$0, %eax
 	je		end_loop
-	incl	%edi
-	movl	%ebp, %eax
-	cmpl	%ebx, %eax
+	cmpl	%eax, %ebx
 	jle		start_loop
-
-	movl	%eax, %ebx
+	movl	%eax,%ebx
 	jmp		start_loop
 
 
