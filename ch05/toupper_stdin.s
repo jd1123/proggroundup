@@ -50,50 +50,17 @@ _start:
 # Save the stack pointer
 	movl	%esp, %ebp
 
-# Allocate space for the file descriptors
-	subl	$ST_SIZE_RESERVE, %esp
-
-openfiles:
-open_fd_in:
-	# open input file
-	movl	 $SYS_OPEN, %eax
-	# input filename into ebx
-	movl	ST_ARGV_1(%ebp), %ebx
-	# read-only flag
-	movl	$O_RDONLY, %ecx
-	# this doesnt really matter for reading
-	movl	$0666, %edx
-	#call linux
-	int		$LINUX_SYSCALL
-
-store_fd_in:
-	# save the given file descriptor
-	movl	%eax, ST_FD_IN(%ebp)
-
-# NO NEED FOR THIS - Stdout only
-#open_fd_out:	
-	# open output file
-#	movl	$SYS_OPEN, %eax
-	# ouput filename into %ebx	
-#	movl	ST_ARGV_2(%ebp), %ebx
-	# flags for writing to the file
-#	movl	$O_CREAT_WRONLY_TRUNC, %ecx
-	# mode for new file
-#	movl $0666, %edx
-	# call Linux
-#	int $LINUX_SYSCALL
-
-#store_fd_out:
-	# store the file descriptor here
-#	movl	%eax, ST_FD_OUT(%ebp)
-
 read_loop_begin:
 	## READ IN A BLOCK from the input file
 	movl	$SYS_READ, %eax
 	# get the input file desciptor
-	movl	ST_FD_IN(%ebp), %ebx
+	movl	$0, %ebx
 	# the location to read into
 	movl	$BUFFER_DATA, %ecx
+
+	# read BUFFER_SIZE bytes
+	movl	$BUFFER_SIZE, %edx
+
 	# the size of the buffer is returned to %eax
 	int		$LINUX_SYSCALL
 
